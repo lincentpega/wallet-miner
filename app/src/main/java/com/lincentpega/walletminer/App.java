@@ -14,7 +14,7 @@ import org.jsoup.select.Elements;
 public class App {
     public static void main(String[] args) {
     	try {
-    	Document doc = Jsoup.connect("https://lbc.cryptoguru.org/dio/1")
+    	Document doc = Jsoup.connect("https://lbc.cryptoguru.org/dio/3")
     			.userAgent(Constants.userAgent)
     			.get();
     	
@@ -22,22 +22,15 @@ public class App {
     	Elements privateKeys = keysBlock.select("span > span");
     	Elements selectedAddresses = keysBlock.select("span > span + a, a + a");
     	
-    	Map<String, String[]> keyToAddresses = new HashMap<>();; 
+    	Map<String, String[]> keyToAddresses = new HashMap<>(); 
     	
+    	int j = 0;
     	for (int i = 0; i < privateKeys.size(); ++i) {
-    		for (int j = 0; j < selectedAddresses.size(); j += 2) {
-    			String addresses[] = {selectedAddresses.get(j).text(), selectedAddresses.get(j + 1).text()};
-    			System.out.println(addresses[0] + " " + addresses[1]);
-    			keyToAddresses.put(privateKeys.get(i).text(), addresses);
-    		}
+    		String addresses[] = {selectedAddresses.get(j).text(), selectedAddresses.get(j + 1).text()};
+    		keyToAddresses.put(privateKeys.get(i).text(), addresses);
+    		j += 2;
     	}
-    	
-    	System.out.println(keyToAddresses);
-    	
-    	
-//    	System.out.println(privateKeys.size());
-//    	System.out.println(addresses.text());
-    			
+    		
     	
     	} catch (IOException e) {
     		e.printStackTrace();
